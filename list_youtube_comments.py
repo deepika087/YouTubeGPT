@@ -10,10 +10,10 @@ import googleapiclient.discovery
 import json
 
 def search_comments(youtube, video_id):
-    print("finding comments for the video id: " + video_id)
+    #print("finding comments for the video id: " + video_id)
     request = youtube.commentThreads().list(
         part="snippet",
-        id=video_id,
+        videoId=video_id,
     )
     response = request.execute()
     return response
@@ -37,7 +37,6 @@ def extract_data(raw_data = ''):
     raw_data = json.load(comment_file_data)
     """
 
-    print(raw_data)
     running_data = ''
     running_data_count = 0
 
@@ -68,8 +67,6 @@ def extract_data(raw_data = ''):
 def comment_workflow(video_id):
     youtube = build_youtube_service()
     raw_data = search_comments(youtube, video_id)
-    print("DATA RETURNED BY THE API: " )
-    print(raw_data)
     comments = extract_data(raw_data)
     return comments
 
