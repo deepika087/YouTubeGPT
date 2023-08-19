@@ -1,0 +1,24 @@
+import unittest
+from unittest.mock import Mock, patch
+import sys
+import io
+from your_script_file_name import search_comments, build_youtube_service, extract_data
+
+AZURE_KEY = "AIzaSyBWOoil9o7pGb1sIk5xDGrALYEV1UVHNhg"
+class TestYouTubeCommentFetcher(unittest.TestCase):
+
+    def setUp(self):
+        self.mock_youtube = Mock()
+
+    @patch('googleapiclient.discovery.build', return_value=Mock(commentThreads=Mock(list=Mock(return_value={'items': []}))))
+    def test_search_comments_empty_response(self, mock_build):
+        video_id = 'sample_video_id'
+        response = search_comments(self.mock_youtube, video_id)
+        self.assertEqual(response, {'items': []})
+
+    def test_build_youtube_service(self):
+        youtube_service = build_youtube_service()
+        self.assertIsNotNone(youtube_service)
+
+if __name__ == '__main__':
+    unittest.main()
